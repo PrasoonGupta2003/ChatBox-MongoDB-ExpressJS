@@ -2,6 +2,8 @@ const express =require("express");
 const app = express();
 const path=require("path");
 
+require('dotenv').config();
+
 const methodOverride=require("method-override");
 app.use(methodOverride("_method"));
 
@@ -18,9 +20,9 @@ main().then(()=>{
 .catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/chatUp');
-}
-
+    await mongoose.connect(process.env.MONGO_URI);
+  }
+  
 let chat1=new Chat({
     from:"Neha",
     to:"Priya",
@@ -66,17 +68,22 @@ app.get("/chats/:id/edit",async (req,res)=>{
 })
 
 //Update route
-app.put("/chats/:id",(req,res)=>{
-    let {id}=req.params;
-    let {msg:newMsg}=req.body;
-    let updatedChat=Chat.findByIdAndUpdate(
-        id,
-        {msg:newMsg},
-        {runValidators:true,new:true}
-    );
-    console.log(updatedChat);
-    res.redirect("/chats");
-})
+app.put("/chats/:id", async (req, res) => {
+    let { id } = req.params;
+    let { msg: newMsg } = req.body;
+    try {
+        let updatedChat = await Chat.findByIdAndUpdate(
+            id,
+            { msg: newMsg },
+            { runValidators: true, new: true }
+        );
+        console.log(updatedChat);
+        res.redirect("/chats");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error updating chat.");
+    }
+});
 
 //Delete
 app.delete("/chats/:id",async (req,res)=>{
@@ -90,6 +97,8 @@ app.get("/",(req, res) => {
     res.send("Root is Working");
 })
 
-app.listen(8080, () => {
-    console.log("App is listening on port 8080");
-})
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`App is listening on port ${PORT}`);
+});
