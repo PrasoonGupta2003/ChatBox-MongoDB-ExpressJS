@@ -67,7 +67,7 @@ app.get("/chats/:id/edit",async (req,res)=>{
     res.render("edit.ejs",{chat});
 })
 
-//Update route
+//Update
 app.put("/chats/:id", async (req, res) => {
     let { id } = req.params;
     let { msg: newMsg } = req.body;
@@ -93,9 +93,9 @@ app.delete("/chats/:id",async (req,res)=>{
     res.redirect("/chats");
 })
 
-app.get("/",(req, res) => {
-    res.send("Root is Working");
-})
+app.get("/", (req, res) => {
+    res.redirect("/chats");
+});
 
 const PORT = process.env.PORT || 8080;
 

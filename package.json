@@ -1,7 +1,4 @@
 {
-  "scripts": {
-  "start": "node index.js"
-},
   "name": "mongodbroutingexpressjs",
   "version": "1.0.0",
   "main": "index.js",
