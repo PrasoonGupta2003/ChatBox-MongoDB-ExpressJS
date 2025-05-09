@@ -23,18 +23,20 @@
 body {
     background-color: var(--bg-light);
     color: var(--primary-dark);
-    padding: 2rem;
+    padding: 1rem;  /* Reduced padding */
+    margin-top: 0;  /* Remove any top margin */
     display: flex;
     flex-direction: column;
     align-items: center;
     line-height: 1.6;
 }
+
 /* Logo Styling */
 .logo {
     font-size: 4rem;
     font-weight: 900;
     text-align: center;
-    margin: 1rem 0;
+    margin: 0.5rem 0;  /* Reduced margin */
     background: linear-gradient(90deg, #0d47a1, #42a5f5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -70,7 +72,7 @@ body {
 .subtitle {
     font-size: 1.25rem;
     color: #333;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;  /* Reduced bottom margin */
     font-weight: 400;
     text-align: center;
 }
@@ -85,8 +87,8 @@ h1 {
 h3 {
     font-size: 1.75rem;
     font-weight: 500;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;  /* Reduced top margin */
+    margin-bottom: 0.5rem;  /* Reduced bottom margin */
     text-align: center;
 }
 
@@ -129,7 +131,7 @@ i {
     max-width: 600px;
     border-radius: 12px;
     padding: 1rem 1.5rem;
-    margin: 1rem auto;
+    margin: 0.5rem auto;  /* Reduced margin */
     box-shadow: 0 4px 12px var(--shadow);
     border-left: 6px solid var(--primary);
     transition: background 0.3s ease;
@@ -192,7 +194,7 @@ textarea {
     width: 80%;
     background: linear-gradient(90deg, #0d47a1, #42a5f5);
     color: #ffffff;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;  /* Reduced padding */
     box-shadow: 0 -5px 15px rgba(13, 71, 161, 0.2);
     border-top: 2px solid #1e88e5;
     border-radius: 15px;
@@ -202,7 +204,7 @@ textarea {
     bottom: 0;
     left: 0;
     z-index: 10;
-    margin-top: 50px;
+    margin-top: 40px;  /* Reduced top margin */
 }
 
 .footer-content {
