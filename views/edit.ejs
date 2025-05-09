@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit your chat</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ChatBox - Seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone.">
+    <meta name="keywords" content="chat, messaging, secure chat, social chat, messaging app, real-time chat, conversations">
+    <meta name="author" content="Prasoon Gupta">
+    
+    <!-- Open Graph Tags for Social Media Sharing -->
+    <meta property="og:title" content="ChatBox - Connect Instantly">
+    <meta property="og:description" content="ChatBox is a seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone.">
+    <meta property="og:image" content="link-to-your-image.jpg"> <!-- Replace with your image -->
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>ChatBox - Messaging Platform</title>
+    
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <h1 class="logo">💬 Chat<span>Box</span></h1>
     <p>Edit your chat: <%=chat._id%></p>
     <p>This chat was sent from <b><%=chat.from%></b> to <b><%=chat.to%></b></p>
     <form method="post" action="/chats/<%=chat._id%>?_method=PUT">
         <textarea name="msg" rows="5" cols="50"><%=chat.msg%></textarea><br>
         <button>Edit</button>
     </form>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built with ❤️ by <strong>Prasoon Gupta</strong></p>
+            <p class="footer-tagline">Seamless. Secure. Social.</p>
+            <div class="contact-icons">
+                <p class="footer-icon">
+                    <i class="fas fa-envelope"></i> prasoong82@gmail.com
+                </p>
+                <a href="https://github.com/PrasoonGupta2003" target="_blank" class="footer-icon">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/prasoon-gupta-a58b4a282/" target="_blank" class="footer-icon">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

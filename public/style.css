@@ -1,16 +1,294 @@
-body{
-    margin-left: 20px;
-    background-color:blanchedalmond;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
-.chat{
-    background-color: aliceblue;
-    padding: 20px;
-    border-radius: 16px;
+
+/* Theme Colors */
+:root {
+    --primary: #0d47a1;
+    --primary-light: #5472d3;
+    --primary-dark: #002171;
+    --bg-light: #e3f2fd;
+    --white: #ffffff;
+    --gray: #f1f1f1;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Body */
+body {
+    background-color: var(--bg-light);
+    color: var(--primary-dark);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.6;
+}
+/* Logo Styling */
+.logo {
+    font-size: 4rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 1rem 0;
+    background: linear-gradient(90deg, #0d47a1, #42a5f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(13, 71, 161, 0.3);
+    animation: slideFadeIn 1s ease-in-out forwards;
+    opacity: 0;
+}
+
+/* Optional: differentiate Box part */
+.logo span {
+    font-weight: 900;
+    background: linear-gradient(90deg, #1a237e, #64b5f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Animation */
+@keyframes slideFadeIn {
+    0% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+/* Subtitle under logo */
+.subtitle {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Headings */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Header */
+h1, h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+i {
+    font-style: italic;
+}
+
+.subtitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    min-height: 2.5rem;
+    background: linear-gradient(90deg, #0d47a1, #42a5f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Optional cursor styling */
+.typed-cursor {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #0d47a1;
+}
+
+/* Chat Cards */
+.chat {
+    background-color: var(--white);
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1rem auto;
+    box-shadow: 0 4px 12px var(--shadow);
+    border-left: 6px solid var(--primary);
+    transition: background 0.3s ease;
+}
+
+.chat:hover {
+    background-color: var(--primary-light);
+    color: var(--white);
+}
+
+.msg {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Buttons */
+button {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    margin: 5px 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Inputs & Textarea */
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--primary-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--gray);
+    color: var(--primary-dark);
+    font-family: 'Poppins', sans-serif;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Time Info */
+.chat p:last-child {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Footer */
+.footer {
+    width: 80%;
+    background: linear-gradient(90deg, #0d47a1, #42a5f5);
+    color: #ffffff;
+    padding: 2rem 1rem;
+    box-shadow: 0 -5px 15px rgba(13, 71, 161, 0.2);
+    border-top: 2px solid #1e88e5;
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    margin-top: 50px;
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.footer-content p {
+    margin: 0.3rem 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.footer-tagline {
+    font-size: 0.95rem;
+    font-style: italic;
+    opacity: 0.9;
+    letter-spacing: 1px;
+}
+
+/* Contact Icons Styling */
+.contact-icons {
+    margin-top: 1rem;
+}
+
+.footer-icon {
     display: inline-block;
+    margin-right: 15px;
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-bottom: 1rem;
 }
-.msg{
-    background-color: dodgerblue;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 16px;
+
+.footer-icon i {
+    margin-right: 8px;
+}
+
+.footer-icon:hover {
+    color: #1e88e5; /* Color on hover */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .footer-content {
+        padding: 1.5rem;
+    }
+
+    .footer-icon {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .contact-icons {
+        margin-top: 1rem;
+    }
+
+    .footer-icon {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .footer-content p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+
+    .chat {
+        padding: 0.8rem;
+    }
+
+    button {
+        width: 100%;
+    }
 }
