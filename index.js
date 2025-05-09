@@ -115,6 +115,16 @@ app.delete("/chats/:id", async (req, res) => {
     }
 });
 
+//  API Route to Fetch Chats
+app.get("/api/chats", async (req, res) => {
+    try {
+        let chats = await Chat.find().sort({ created_at: -1 });
+        res.json(chats);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch chats" });
+    }
+});
+
 // Server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

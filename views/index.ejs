@@ -19,49 +19,59 @@
     <h1 class="logo">💬 Chat<span>Box</span></h1>
     <h3 class="subtitle typed-text"></h3>
     <h3>All Chats</h3>
+    
     <form method="get" action="/chats/new">
         <button>New Chat!</button>
     </form>
+
     <br>
-    <%for(let chat of chats){%>
-        <div class="chat">
-            <p>From: <i><%= chat.from %></i></p>
-            <div class="msg">
-                <p><%= chat.msg %></p>
-                <form method="get" action="/chats/<%=chat._id%>/edit">
-                    <button>Edit</button>
-                </form>
-                <form method="post" action="/chats/<%=chat._id%>/?_method=DELETE">
-                    <button>Delete</button>
-                </form>
+    <div id="loading" style="text-align:center; display: none;">
+        <p>Loading chats...</p>
+    </div>
+
+    <div id="chat-container">
+        <% for (let chat of chats) { %>
+            <div class="chat">
+                <p>From: <i><%= chat.from %></i></p>
+                <div class="msg">
+                    <p><%= chat.msg %></p>
+                    <form method="get" action="/chats/<%= chat._id %>/edit">
+                        <button>Edit</button>
+                    </form>
+                    <form method="post" action="/chats/<%= chat._id %>?_method=DELETE">
+                        <button>Delete</button>
+                    </form>
+                </div>
+                <p>Received by <i><%= chat.to %></i></p>
+                <hr>
+                <p><%= chat.created_at.toTimeString().split(" ")[0] %></p>
+                <p><%= chat.created_at.toDateString() %></p>
             </div>
-            <p>Recieved by <i><%= chat.to %></i></p>
-            <hr>
-            <p><%= chat.created_at.toString().split(" ")[4]%></p>
-            <p><%= chat.created_at.toString().split(" ").slice(0,4).join("-")%></p>
-        </div>
-        <br><br>
-    <%}%>
+            <br><br>
+        <% } %>
+    </div>
+
+    <!-- Typed.js animation -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script>
-    var typed = new Typed(".typed-text", {
-        strings: ["Connect instantly.", "Speak freely.", "Chat with anyone.", "No limits, just conversations."],
-        typeSpeed: 60,
-        backSpeed: 30,
-        backDelay: 1200,
-        loop: true,
-        showCursor: true,
-        cursorChar: "|"
-    });
+        var typed = new Typed(".typed-text", {
+            strings: ["Connect instantly.", "Speak freely.", "Chat with anyone.", "No limits, just conversations."],
+            typeSpeed: 60,
+            backSpeed: 30,
+            backDelay: 1200,
+            loop: true,
+            showCursor: true,
+            cursorChar: "|"
+        });
     </script>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <p>© <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built with ❤️ by <strong>Prasoon Gupta</strong></p>
             <p class="footer-tagline">Seamless. Secure. Social.</p>
             <div class="contact-icons">
-                <p class="footer-icon">
-                    <i class="fas fa-envelope"></i> prasoong82@gmail.com
-                </p>
+                <p class="footer-icon"><i class="fas fa-envelope"></i> prasoong82@gmail.com</p>
                 <a href="https://github.com/PrasoonGupta2003" target="_blank" class="footer-icon">
                     <i class="fab fa-github"></i> GitHub
                 </a>
@@ -71,5 +81,67 @@
             </div>
         </div>
     </footer>
+
+    <!-- Notification Audio -->
+    <audio id="notif-sound" src="/notification.mp3" preload="auto"></audio>
+
+    <!-- Auto-refresh & sound script -->
+    <script>
+        function playNotificationSound() {
+            const audio = document.getElementById('notif-sound');
+            audio.play().catch(e => {
+                console.warn("Notification sound not played:", e);
+            });
+        }
+
+        let lastChatIds = [];
+
+        async function fetchChats() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+
+                const res = await fetch('/api/chats');
+                const chats = await res.json();
+
+                document.getElementById('loading').style.display = 'none';
+
+                const container = document.getElementById('chat-container');
+                const newIds = chats.map(chat => chat._id);
+                const isNew = lastChatIds.length && newIds[0] !== lastChatIds[0];
+
+                container.innerHTML = chats.map(chat => `
+                    <div class="chat">
+                        <p>From: <i>${chat.from}</i></p>
+                        <div class="msg">
+                            <p>${chat.msg}</p>
+                            <form method="get" action="/chats/${chat._id}/edit">
+                                <button>Edit</button>
+                            </form>
+                            <form method="post" action="/chats/${chat._id}?_method=DELETE">
+                                <button>Delete</button>
+                            </form>
+                        </div>
+                        <p>Received by <i>${chat.to}</i></p>
+                        <hr>
+                        <p>${new Date(chat.created_at).toTimeString().split(' ')[0]}</p>
+                        <p>${new Date(chat.created_at).toDateString()}</p>
+                    </div>
+                `).join('');
+
+                if (isNew) {
+                    playNotificationSound();
+                }
+
+                lastChatIds = newIds;
+
+            } catch (error) {
+                console.error("Error fetching chats:", error);
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // Poll every 3 seconds
+        setInterval(fetchChats, 3000);
+    </script>
 </body>
 </html>
