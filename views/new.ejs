@@ -20,13 +20,14 @@
     <form action="/chats" method="POST">
         <input type="text" placeholder="Who are you?" name="from">
         <br><br>
-        <textarea name="msg">Write Your Message here...</textarea>
+        <textarea id="msg" name="msg">Write Your Message here...</textarea>
         <br><br>
         <input type="text" placeholder="add reciever" name="to">
         <br><br>
         <button>Create chat</button>
     </form>
-   <footer class="footer">
+    
+    <footer class="footer">
         <div class="footer-content">
             <p>© <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built with ❤️ by <strong>Prasoon Gupta</strong></p>
             <p class="footer-tagline">Seamless. Secure. Social.</p>
@@ -43,5 +44,22 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const textarea = document.getElementById('msg');
+        
+        // Add event listener to clear default message when the user starts typing
+        textarea.addEventListener('focus', () => {
+            if (textarea.value === 'Write Your Message here...') {
+                textarea.value = ''; // Clear the default message
+            }
+        });
+        
+        textarea.addEventListener('blur', () => {
+            if (textarea.value.trim() === '') {
+                textarea.value = 'Write Your Message here...'; // Restore default message if empty
+            }
+        });
+    </script>
 </body>
 </html>
