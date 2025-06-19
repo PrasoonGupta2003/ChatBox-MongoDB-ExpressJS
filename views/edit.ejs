@@ -15,7 +15,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <h1 class="logo">💬 Chat<span>Box</span></h1>
+    <nav class="navbar">
+    <div class="navbar-left">
+        <h1 class="logo">💬 Chat<span>Box</span></h1>
+    </div>
+    <div class="navbar-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="navbar-right" id="navbar-menu">
+        <a href="https://virtual-assistant-majorproject.onrender.com" class="nav-btn">🤖 AI Assistant</a>
+        <form method="get" action="/chats/new" class="nav-form">
+        <button class="nav-btn">➕ New Chat</button>
+        </form>
+    </div>
+    </nav>
     <p>Edit your chat: <%=chat._id%></p>
     <p>This chat was sent from <b><%=chat.from%></b> to <b><%=chat.to%></b></p>
     <form method="post" action="/chats/<%=chat._id%>?_method=PUT">

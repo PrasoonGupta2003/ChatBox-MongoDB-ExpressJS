@@ -1,92 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="ChatBox - Seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone.">
-    <meta name="keywords" content="chat, messaging, secure chat, social chat, messaging app, real-time chat, conversations">
-    <meta name="author" content="Prasoon Gupta">
-    
+    <meta
+      name="description"
+      content="ChatBox - Seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone."
+    />
+    <meta
+      name="keywords"
+      content="chat, messaging, secure chat, social chat, messaging app, real-time chat, conversations"
+    />
+    <meta name="author" content="Prasoon Gupta" />
+
     <title>ChatBox - Messaging Platform</title>
-    
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <!-- FontAwesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-    <h1 class="logo">💬 Chat<span>Box</span></h1>
-    <h3 class="subtitle typed-text"></h3>
-    <h3>All Chats</h3>
-    
-    <!-- AI Assistant Button (added here) -->
-    <div style="text-align: center; margin: 1.5rem 0;">
-    <a href="https://virtual-assistant-majorproject.onrender.com" target="_blank" class="ai-btn">
-        🤖 Try My AI Assistant
-    </a>
-    </div>
-
-    <form method="get" action="/chats/new">
-        <button>New Chat!</button>
-    </form>
-
-    <br>
-    <div id="loading" style="text-align:center; display: none;">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <h1 class="logo">💬 Chat<span>Box</span></h1>
+      </div>
+      <div class="navbar-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="navbar-right" id="navbar-menu">
+        <a
+          href="https://virtual-assistant-majorproject.onrender.com"
+          class="nav-btn"
+          >🤖 AI Assistant</a
+        >
+        <form method="get" action="/chats/new" class="nav-form">
+          <button class="nav-btn">➕ New Chat</button>
+        </form>
+        <form
+          method="post"
+          action="/chats/deleteAll?_method=DELETE"
+          onsubmit="return confirm('Delete all chats?')"
+          class="nav-form"
+        >
+          <button class="nav-btn danger">
+            <i class="fas fa-trash"></i> Delete History
+          </button>
+        </form>
+      </div>
+    </nav>
+    <span class="subtitle typed-text"></span>
+    <div class="page-wrapper">
+      <div id="loading" style="text-align: center; display: none">
         <p>Loading chats...</p>
-    </div>
+      </div>
 
-    <div id="chat-container">
+      <div id="chat-container" style="padding: 1.5rem">
         <% for (let chat of chats) { %>
-            <div class="chat">
-                <p>From: <i><%= chat.from %></i></p>
-                <div class="msg">
-                    <p><%= chat.msg %></p>
-                    <form method="get" action="/chats/<%= chat._id %>/edit">
-                        <button>Edit</button>
-                    </form>
-                    <form method="post" action="/chats/<%= chat._id %>?_method=DELETE">
-                        <button>Delete</button>
-                    </form>
-                </div>
-                <p>Received by <i><%= chat.to %></i></p>
-                <hr>
-                <p><%= chat.created_at.toTimeString().split(" ")[0] %></p>
-                <p><%= chat.created_at.toDateString() %></p>
-            </div>
-            <br><br>
+        <div class="chat">
+          <p>From: <i><%= chat.from %></i></p>
+          <div class="msg">
+            <p><%= chat.msg %></p>
+            <form method="get" action="/chats/<%= chat._id %>/edit">
+              <button>Edit</button>
+            </form>
+            <form method="post" action="/chats/<%= chat._id %>?_method=DELETE">
+              <button>Delete</button>
+            </form>
+          </div>
+          <p>Received by <i><%= chat.to %></i></p>
+          <hr />
+          <p><%= chat.created_at.toTimeString().split(" ")[0] %></p>
+          <p><%= chat.created_at.toDateString() %></p>
+        </div>
+        <br /><br />
         <% } %>
+      </div>
+      <form
+        id="global-chat-form"
+        class="global-chat-input"
+        method="POST"
+        action="/chats"
+      >
+        <input type="hidden" name="from" value="Anonymous" />
+        <input type="hidden" name="to" value="Global" />
+        <input
+          type="text"
+          name="msg"
+          id="global-msg"
+          placeholder="[Type here to chat...]"
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
     </div>
-    
+    <button class="scroll-to-chat" onclick="scrollToChat()">⬇️ Chat</button>
+
     <!-- Typed.js animation -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script>
-        var typed = new Typed(".typed-text", {
-            strings: ["Connect instantly.", "Speak freely.", "Chat with anyone.", "No limits, just conversations."],
-            typeSpeed: 60,
-            backSpeed: 30,
-            backDelay: 1200,
-            loop: true,
-            showCursor: true,
-            cursorChar: "|"
-        });
+      var typed = new Typed(".typed-text", {
+        strings: [
+          "Connect instantly.",
+          "Speak freely.",
+          "Chat with anyone.",
+          "No limits, just conversations.",
+        ],
+        typeSpeed: 60,
+        backSpeed: 30,
+        backDelay: 1200,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|",
+      });
     </script>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <p>© <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built with ❤️ by <strong>Prasoon Gupta</strong></p>
-            <p class="footer-tagline">Seamless. Secure. Social.</p>
-            <div class="contact-icons">
-                <p class="footer-icon"><i class="fas fa-envelope"></i> prasoong82@gmail.com</p>
-                <a href="https://github.com/PrasoonGupta2003" target="_blank" class="footer-icon">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-                <a href="https://www.linkedin.com/in/prasoon-gupta-a58b4a282/" target="_blank" class="footer-icon">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-            </div>
+      <div class="footer-content">
+        <p>
+          © <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built
+          with ❤️ by <strong>Prasoon Gupta</strong>
+        </p>
+        <p class="footer-tagline">Seamless. Secure. Social.</p>
+        <div class="contact-icons">
+          <p class="footer-icon">
+            <i class="fas fa-envelope"></i> prasoong82@gmail.com
+          </p>
+          <a
+            href="https://github.com/PrasoonGupta2003"
+            target="_blank"
+            class="footer-icon"
+          >
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/prasoon-gupta-a58b4a282/"
+            target="_blank"
+            class="footer-icon"
+          >
+            <i class="fab fa-linkedin"></i> LinkedIn
+          </a>
         </div>
+      </div>
     </footer>
 
     <!-- Notification Audio -->
@@ -94,61 +156,157 @@
 
     <!-- Auto-refresh & sound script -->
     <script>
-        function playNotificationSound() {
-            const audio = document.getElementById('notif-sound');
-            audio.play().catch(e => {
-                console.warn("Notification sound not played:", e);
-            });
-        }
+      function playNotificationSound() {
+        const audio = document.getElementById("notif-sound");
+        audio.currentTime = 0;
+        audio.play().catch((e) => {
+          console.warn("Notification sound not played:", e);
+        });
+      }
 
-        let lastChatIds = [];
+      let lastChatIds = [];
 
-        async function fetchChats() {
-            try {
-                document.getElementById('loading').style.display = 'block';
+      async function fetchChats() {
+        try {
+          if (lastChatIds.length === 0) {
+            document.getElementById("loading").style.display = "block";
+          }
 
-                const res = await fetch('/api/chats');
-                const chats = await res.json();
+          const res = await fetch("/api/chats");
+          const chats = await res.json();
 
-                document.getElementById('loading').style.display = 'none';
+          document.getElementById("loading").style.display = "none";
 
-                const container = document.getElementById('chat-container');
-                const newIds = chats.map(chat => chat._id);
-                const isNew = lastChatIds.length && newIds[0] !== lastChatIds[0];
+          const container = document.getElementById("chat-container");
+          const newIds = chats.map((chat) => chat._id);
 
-                container.innerHTML = chats.map(chat => `
-                    <div class="chat">
-                        <p>From: <i>${chat.from}</i></p>
-                        <div class="msg">
-                            <p>${chat.msg}</p>
-                            <form method="get" action="/chats/${chat._id}/edit">
-                                <button>Edit</button>
-                            </form>
-                            <form method="post" action="/chats/${chat._id}?_method=DELETE">
-                                <button>Delete</button>
-                            </form>
-                        </div>
-                        <p>Received by <i>${chat.to}</i></p>
-                        <hr>
-                        <p>${new Date(chat.created_at).toTimeString().split(' ')[0]}</p>
-                        <p>${new Date(chat.created_at).toDateString()}</p>
+          const newMessages = newIds.filter((id) => !lastChatIds.includes(id));
+
+          container.innerHTML = chats
+            .map(
+              (chat) => `
+            <div class="chat" data-id="${chat._id}">
+                <p>From: <i>${chat.from}</i></p>
+                
+                <div class="msg">
+                    <div class="like-heart">❤️</div>
+                    <p>${chat.msg}</p>
+                    <div class="like-section">
+                    <span class="like-count">
+                        <i class="fas fa-heart like-icon"></i>
+                        <span class="like-num">${chat.likes || 0}</span>
+                    </span>
+
+
                     </div>
-                `).join('');
+                    <form method="get" action="/chats/${chat._id}/edit">
+                        <button>Edit</button>
+                    </form>
+                    <form method="post" action="/chats/${
+                      chat._id
+                    }?_method=DELETE">
+                        <button>Delete</button>
+                    </form>
+                </div>
+                <p>Received by <i>${chat.to}</i></p>
+                <hr>
+                <p>${new Date(chat.created_at).toTimeString().split(" ")[0]}</p>
+                <p>${new Date(chat.created_at).toDateString()}</p>
+            </div>
+        `
+            )
+            .join("");
 
-                if (isNew) {
-                    playNotificationSound();
-                }
+          attachDoubleTapListeners();
 
-                lastChatIds = newIds;
+          if (newMessages.length > 0) {
+            playNotificationSound();
+          }
 
-            } catch (error) {
-                console.error("Error fetching chats:", error);
-                document.getElementById('loading').style.display = 'none';
-            }
+          lastChatIds = newIds;
+        } catch (error) {
+          console.error("Error fetching chats:", error);
+          document.getElementById("loading").style.display = "none";
         }
+      }
+      function attachDoubleTapListeners() {
+        document.querySelectorAll(".chat").forEach((chatDiv) => {
+          let lastTapTime = 0;
+          let tapTimeout;
 
-        // Poll every 1 seconds
-        setInterval(fetchChats, 1000);
+          chatDiv.addEventListener("click", async () => {
+            const currentTime = new Date().getTime();
+            const tapGap = currentTime - lastTapTime;
+
+            if (tapGap < 350 && tapGap > 50) {
+              // Detect proper double-tap
+              clearTimeout(tapTimeout); // Cancel single tap fallback
+              lastTapTime = 0; // reset
+
+              const chatId = chatDiv.dataset.id;
+
+              try {
+                await fetch(`/chats/${chatId}/like`, { method: "POST" });
+
+                const heart = chatDiv.querySelector(".like-heart");
+                heart.classList.add("animate");
+                setTimeout(() => {
+                  heart.classList.remove("animate");
+                }, 800);
+
+                const countSpan = chatDiv.querySelector(".like-num");
+                const current = parseInt(countSpan.textContent);
+                countSpan.textContent = current + 1;
+
+                const heartIcon = chatDiv.querySelector(".like-icon");
+                heartIcon.classList.add("animate");
+                setTimeout(() => {
+                  heartIcon.classList.remove("animate");
+                }, 600);
+              } catch (err) {
+                console.error("Like failed", err);
+              }
+            } else {
+              lastTapTime = currentTime;
+              clearTimeout(tapTimeout);
+
+              // Optional: fallback for single tap if needed
+              tapTimeout = setTimeout(() => {
+                lastTapTime = 0;
+              }, 350);
+            }
+          });
+        });
+      }
+
+      // Poll every second
+      setInterval(fetchChats, 1000);
     </script>
-</body>
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("navbar-menu");
+        menu.classList.toggle("show");
+      }
+      function scrollToChat() {
+        document
+          .getElementById("global-chat-form")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+      function scrollToBottom() {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    </script>
+    <script>
+      document
+        .getElementById("global-chat-form")
+        .addEventListener("submit", function () {
+          setTimeout(() => {
+            scrollToChat();
+          }, 300); // delay to wait for DOM update
+        });
+    </script>
+  </body>
 </html>
