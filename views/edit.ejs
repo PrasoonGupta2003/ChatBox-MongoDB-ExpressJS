@@ -1,56 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="ChatBox - Seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone.">
-    <meta name="keywords" content="chat, messaging, secure chat, social chat, messaging app, real-time chat, conversations">
-    <meta name="author" content="Prasoon Gupta">
-    
+    <meta
+      name="description"
+      content="ChatBox - Seamless, secure, and social messaging platform. Connect instantly and speak freely with anyone."
+    />
+    <meta
+      name="keywords"
+      content="chat, messaging, secure chat, social chat, messaging app, real-time chat, conversations"
+    />
+    <meta name="author" content="Prasoon Gupta" />
+
     <title>ChatBox - Messaging Platform</title>
-    
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
     <nav class="navbar">
-    <div class="navbar-left">
+      <div class="navbar-left">
         <h1 class="logo">💬 Chat<span>Box</span></h1>
-    </div>
-    <div class="navbar-toggle" onclick="toggleMenu()">
+      </div>
+      <div class="navbar-toggle" onclick="toggleMenu()">
         <i class="fas fa-bars"></i>
-    </div>
-    <div class="navbar-right" id="navbar-menu">
-        <a href="https://virtual-assistant-majorproject.onrender.com" class="nav-btn">🤖 AI Assistant</a>
+      </div>
+      <div class="navbar-right" id="navbar-menu">
+        <a
+          href="https://virtual-assistant-majorproject.onrender.com"
+          class="nav-btn"
+          >🤖 AI Assistant</a
+        >
         <form method="get" action="/chats/new" class="nav-form">
-        <button class="nav-btn">➕ New Chat</button>
+          <button class="nav-btn">➕ New Chat</button>
         </form>
-    </div>
+      </div>
     </nav>
-    <p>Edit your chat: <%=chat._id%></p>
-    <p>This chat was sent from <b><%=chat.from%></b> to <b><%=chat.to%></b></p>
-    <form method="post" action="/chats/<%=chat._id%>?_method=PUT">
-        <textarea name="msg" rows="5" cols="50"><%=chat.msg%></textarea><br>
-        <button>Edit</button>
-    </form>
+    <div class="page-wrapper">
+      <div class="edit-form-container">
+        <p>Edit your chat: <%= chat._id %></p>
+        <p>
+          This chat was sent from <b><%= chat.from %></b> to
+          <b><%= chat.to %></b>
+        </p>
+        <form
+          method="post"
+          action="/chats/<%= chat._id %>?_method=PUT"
+          class="edit-form"
+        >
+          <textarea name="msg" rows="5" cols="50"><%= chat.msg %></textarea
+          ><br />
+          <button>Edit</button>
+        </form>
+      </div>
+    </div>
+
     <footer class="footer">
-        <div class="footer-content">
-            <p>© <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built with ❤️ by <strong>Prasoon Gupta</strong></p>
-            <p class="footer-tagline">Seamless. Secure. Social.</p>
-            <div class="contact-icons">
-                <p class="footer-icon">
-                    <i class="fas fa-envelope"></i> prasoong82@gmail.com
-                </p>
-                <a href="https://github.com/PrasoonGupta2003" target="_blank" class="footer-icon">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-                <a href="https://www.linkedin.com/in/prasoon-gupta-a58b4a282/" target="_blank" class="footer-icon">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-            </div>
+      <div class="footer-content">
+        <p>
+          © <%= new Date().getFullYear() %> <strong>ChatBox</strong> 💬 — Built
+          with ❤️ by <strong>Prasoon Gupta</strong>
+        </p>
+        <p class="footer-tagline">Seamless. Secure. Social.</p>
+        <div class="contact-icons">
+          <p class="footer-icon">
+            <i class="fas fa-envelope"></i> prasoong82@gmail.com
+          </p>
+          <a
+            href="https://github.com/PrasoonGupta2003"
+            target="_blank"
+            class="footer-icon"
+          >
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/prasoon-gupta-a58b4a282/"
+            target="_blank"
+            class="footer-icon"
+          >
+            <i class="fab fa-linkedin"></i> LinkedIn
+          </a>
+          <a
+            href="https://personal-portfolio-website-8bv4.onrender.com"
+            target="_blank"
+            class="footer-icon"
+          >
+            <i class="fa-solid fa-address-book"></i> About me
+          </a>
         </div>
+      </div>
     </footer>
-</body>
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("navbar-menu");
+        menu.classList.toggle("show");
+      }
+    </script>
+  </body>
 </html>
